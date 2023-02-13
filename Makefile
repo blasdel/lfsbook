@@ -1,38 +1,12 @@
-#BASEDIR = ~/lfs-book
-#SYSDDIR = ~/lfs-systemd
-#DUMPDIR = ~/lfs-commands
-RENDERTMP = $(HOME)/tmp
+BASEDIR = lfs-book
+DUMPDIR = lfs-commands
+RENDERTMP = lfs-xml
 CHUNK_QUIET = 1
 ROOT_ID =
 SHELL = /bin/bash
-
-ifdef V
-  Q =
-else
-  Q = @
-endif
-
-ifndef REV
-  REV = sysv
-endif
-
-ifneq ($(REV), sysv)
-  ifneq ($(REV), systemd)
-    $(error REV must be 'sysv' (default) or 'systemd'.)
-  endif
-endif
-
-ifeq ($(REV), sysv)
-  BASEDIR         ?= ~/lfs-book
-  PDF_OUTPUT      ?= LFS-BOOK.pdf
-  NOCHUNKS_OUTPUT ?= LFS-BOOK.html
-  DUMPDIR         ?= ~/lfs-commands
-else
-  BASEDIR         ?= ~/lfs-systemd
-  PDF_OUTPUT      ?= LFS-SYSD-BOOK.pdf
-  NOCHUNKS_OUTPUT ?= LFS-SYSD-BOOK.html
-  DUMPDIR         ?= ~/lfs-sysd-commands
-endif
+REV = systemd
+PDF_OUTPUT = lfs-book.pdf
+NOCHUNKS_OUTPUT = lfs-book.html
 
 book: validate profile-html
 	@echo "Generating chunked XHTML files at $(BASEDIR)/ ..."
@@ -207,7 +181,6 @@ dump-commands: validate
                 $(RENDERTMP)/lfs-full.xml
 	@echo "Dumping book commands complete in $(DUMPDIR)"
 
-all: book nochunks pdf dump-commands
+all: book dump-commands nochunks md5sums wget-list
 
 .PHONY : all book dump-commands nochunks pdf profile-html tmpdir validate md5sums wget-list version
-
