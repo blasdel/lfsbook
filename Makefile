@@ -1,3 +1,5 @@
+.NOTPARALELL:
+
 BASEDIR = lfs-book
 DUMPDIR = lfs-commands
 RENDERTMP = lfs-xml
